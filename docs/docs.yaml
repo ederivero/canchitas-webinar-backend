@@ -1,0 +1,43 @@
+openapi: '3.0.0'
+info:
+  description: 'Esta es la documentacion para la API de reserva de canchitas ⚽ para el webinar de [CodiGo](https://codigo.edu.pe/)'
+  version: 2.0.0
+  title: 'API de Reserva de Canchas'
+  contact:
+    email: 'ederiveroman@gmail.com'
+    name: 'Eduardo de Rivero'
+  license:
+    name: 'Apache 2.0'
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+tags:
+  - name: 'general'
+    description: 'generics routes for the server'
+  - name: 'auth'
+  - name: 'users'
+  - name: 'admins'
+  - name: 'admins-master'
+    description: 'only for the admin with master type, also they can access to the admins routes'
+servers:
+  - url: '/api/v1'
+    description: 'version 1'
+paths:
+  /status:
+    get:
+      tags:
+        - 'general'
+      responses:
+        '200':
+          description: 'The date of the server'
+          content:
+            application/json:
+              schema:
+                properties:
+                  time:
+                    type: 'string'
+                    example: '2022-01-01T00:00:00.000Z'
+  securitySchemes:
+    api_key:
+      type: 'apiKey'
+      name: 'authorization'
+      in: 'header'
+      description: 'Bearer <YOUR_TOKEN>'
