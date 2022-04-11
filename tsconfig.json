@@ -14,7 +14,8 @@
     "moduleResolution": "node",
     "strict": true,
     "skipLibCheck": true,
-    "strictPropertyInitialization": false
+    "strictPropertyInitialization": false,
+    "typeRoots": ["@types", "./node_modules/@types"],
   },
   "include": ["prisma/**/*.ts", "src/**/*.ts"]
 }

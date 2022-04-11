@@ -7,7 +7,7 @@
   "author": "Eduardo Ramiro de Rivero Manrique <ederiveroman@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "dev": "dotenv -e .env -- ts-node-dev --respawn --transpile-only --exit-child --watch src src/server.ts",
+    "start:dev": "dotenv -e .env -- ts-node-dev --respawn --transpile-only --exit-child --watch src src/server.ts",
     "build": "tsc -p .",
     "start": "node dist/server.js",
     "format": "prettier .",
@@ -23,9 +23,11 @@
     "prisma:format": "prisma format"
   },
   "devDependencies": {
+    "@types/bcryptjs": "^2.4.2",
     "@types/express": "^4.17.13",
     "@types/http-errors": "^1.8.2",
     "@types/js-yaml": "^4.0.5",
+    "@types/jsonwebtoken": "^8.5.8",
     "@types/swagger-ui-express": "^4.1.3",
     "eslint": "^8.13.0",
     "nodemon": "^2.0.15",
@@ -37,6 +39,7 @@
   },
   "dependencies": {
     "@prisma/client": "^3.12.0",
+    "aws-sdk": "^2.1111.0",
     "bcryptjs": "^2.4.3",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.13.2",
@@ -47,7 +50,11 @@
     "http-errors": "^2.0.0",
     "js-yaml": "^4.1.0",
     "jsonwebtoken": "^8.5.1",
+    "nanoid": "^3.3.2",
     "reflect-metadata": "^0.1.13",
     "swagger-ui-express": "^4.3.0"
+  },
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts"
   }
 }

@@ -9,3 +9,108 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model User {
+  id          String    @id @unique @default(uuid())
+  fullName    String    @map("full_name")
+  email       String    @unique
+  password    String
+  confirmedAt DateTime? @map("confirmed_at")
+  createdAt   DateTime  @default(now()) @map("created_at")
+  updatedAt   DateTime  @updatedAt @map("updated_at")
+
+  books  Booking[]
+  tokens Token[]
+
+  @@map("users")
+}
+
+model Admin {
+  id        String   @id @unique @default(uuid())
+  fullName  String   @map("full_name")
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  tokens Token[]
+
+  @@map("admins")
+}
+
+model Token {
+  id        String   @id @unique @default(uuid())
+  createdAt DateTime @default(now()) @map(name: "created_at")
+  user      User?    @relation(fields: [userId], references: [id])
+  userId    String?  @map(name: "user_id")
+  admin     Admin?   @relation(fields: [adminId], references: [id])
+  adminId   String?  @map(name: "admin_id")
+  jti       String   @unique @default(uuid())
+  aud       String?
+
+  @@map(name: "tokens")
+}
+
+model Place {
+  id            String @id @unique @default(uuid())
+  name          String
+  direction     String
+  latitude      Float
+  longitud      Float
+  aditionalData Json   @map(name: "aditional_data")
+
+  attachment Attachment?
+  schedules  Schedule[]
+  books      Booking[]
+
+  attachmentId String @unique
+  @@map(name: "places")
+}
+
+model Schedule {
+  id      String    @id @unique @default(uuid())
+  day     DayOfWeek
+  dtStart DateTime  @map(name: "dt_start") @db.Time()
+  dtEnd   DateTime  @map(name: "dt_end") @db.Time()
+  placeId String    @map(name: "schedule_id")
+  places  Place     @relation(fields: [placeId], references: [id])
+
+  @@map(name: "schedules")
+}
+
+model Booking {
+  id      String   @id @unique @default(uuid())
+  day     DateTime @db.Date
+  dtStart DateTime @map(name: "dt_start") @db.Time()
+  dtEnd   DateTime @map(name: "dt_end") @db.Time()
+  placeId String   @map(name: "schedule_id")
+  place   Place    @relation(fields: [placeId], references: [id])
+  userId  String   @map(name: "user_id")
+  user    User     @relation(fields: [userId], references: [id])
+
+  @@map(name: "bookings")
+}
+
+model Attachment {
+  id          String   @id @unique @default(uuid())
+  path        String
+  key         String
+  ext         String
+  contentType String   @map(name: "content_type")
+  placeId     String?  @unique
+  place       Place?   @relation(fields: [placeId], references: [id])
+  createdAt   DateTime @default(now()) @map(name: "created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  @@map("attachments")
+}
+
+enum DayOfWeek {
+  LUN
+  MAR
+  MIE
+  JUE
+  VIE
+  SAB
+  DOM
+}
