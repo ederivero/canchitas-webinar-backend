@@ -9,7 +9,7 @@
   "scripts": {
     "start:dev": "dotenv -e .env -- ts-node-dev --respawn --transpile-only --exit-child --watch src src/server.ts",
     "build": "tsc -p .",
-    "start": "node dist/server.js",
+    "start": "node dist/src/server.js",
     "format": "prettier .",
     "format:write": "prettier . --write",
     "format:check": "format --check",
