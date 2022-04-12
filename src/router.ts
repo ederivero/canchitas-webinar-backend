@@ -11,7 +11,7 @@ export function router(app: Router): Router {
   app.use('/api/v1/admins', adminsRoutes())
   app.use('/api/v1/auth', authRoutes())
   app.use('/api/v1/booking', bookingRoutes())
-  app.use('/api/v1/place', placesRoutes())
+  app.use('/api/v1/places', placesRoutes())
   app.use('/api/v1/users', userRoutes())
 
   return expressRouter

@@ -1,7 +1,6 @@
 import { plainToClass } from 'class-transformer'
 import { Request, Response } from 'express'
 import { BookingDto } from '../dtos/bookings/request/booking.dto'
-import { SearchBookDto } from '../dtos/bookings/request/search-book.dto'
 import { BookingService } from '../services/booking.service'
 import { Authenticated } from '../utils/types'
 

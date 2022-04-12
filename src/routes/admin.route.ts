@@ -22,7 +22,7 @@ export function adminsRoutes(): Router {
   router
     .route('')
     .all(asyncHandler(authValidator), asyncHandler(adminValidator))
-    .post(asyncHandler(create))
+    // .post(asyncHandler(create))
     .get(asyncHandler(find))
 
   router

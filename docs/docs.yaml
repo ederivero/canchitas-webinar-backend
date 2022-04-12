@@ -15,8 +15,9 @@ tags:
   - name: 'auth'
   - name: 'users'
   - name: 'admins'
-  - name: 'admins-master'
-    description: 'only for the admin with master type, also they can access to the admins routes'
+  - name: 'booking'
+  - name: 'places'
+    description: 'public routes for everyone'
 servers:
   - url: '/api/v1'
     description: 'version 1'
@@ -35,6 +36,365 @@ paths:
                   time:
                     type: 'string'
                     example: '2022-01-01T00:00:00.000Z'
+  /admins/me:
+    get:
+      tags:
+        - 'admins'
+      responses:
+        '200':
+          description: 'The current admin'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Admin'
+      security:
+        - api_key: []
+    patch:
+      tags:
+        - 'admins'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: 'object'
+              properties:
+                fullName:
+                  type: 'string'
+                email:
+                  type: 'string'
+                password:
+                  type: 'string'
+      responses:
+        '200':
+          description: 'The admin updated'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Admin'
+  /admins:
+    get:
+      description: 'Retrieves all the admins'
+      tags:
+        - 'admins'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: 'array'
+                items:
+                  $ref: '#/components/schemas/Admin'
+      security:
+        - api_key: []
+  /admins/{id}:
+    get:
+      description: 'Retrieves one admin'
+      tags:
+        - 'admins'
+      parameters:
+        - name: 'id'
+          in: 'path'
+          description: 'The id for the admin'
+          required: true
+          schema:
+            type: 'string'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Admin'
+      security:
+        - api_key: []
+    delete:
+      tags:
+        - 'admins'
+      parameters:
+        - name: 'id'
+          in: 'path'
+          description: 'The uuid for the admin'
+          required: true
+          schema:
+            type: 'string'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Admin'
+      security:
+        - api_key: []
+  /auth/login:
+    post:
+      tags:
+        - 'auth'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                email:
+                  type: 'string'
+                password:
+                  type: 'string'
+
+      responses:
+        '200':
+          description: 'Ok'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Login'
+        '401':
+          description: 'Forbidden'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '400':
+          description: 'Bad Request'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /auth/logout:
+    post:
+      tags:
+        - 'auth'
+      responses:
+        '204':
+          description: 'No content'
+      security:
+        - api_key: []
+
+  /users/register:
+    post:
+      tags:
+        - 'users'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: 'object'
+              properties:
+                fullName:
+                  type: 'string'
+                email:
+                  type: 'string'
+                password:
+                  type: 'string'
+      responses:
+        '201':
+          description: 'The new user created'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+  /booking/{placeId}:
+    get:
+      tags:
+        - 'booking'
+      parameters:
+        - name: 'placeId'
+          in: 'path'
+          description: 'The id for the place'
+          required: true
+          schema:
+            type: 'string'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: 'array'
+                items:
+                  $ref: '#/components/schemas/Booking'
+      security:
+        - api_key: []
+  /booking:
+    post:
+      tags:
+        - 'booking'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: 'object'
+              properties:
+                day:
+                  type: 'string'
+                dtStart:
+                  type: 'string'
+                dtEnd:
+                  type: 'string'
+                placeId:
+                  type: 'string'
+      responses:
+        '201':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Booking'
+      security:
+        - api_key: []
+
+  /user/bookings:
+    get:
+      tags:
+        - 'booking'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: 'array'
+                items:
+                  $ref: '#/components/schemas/Booking'
+  /places:
+    get:
+      tags:
+        - 'places'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlacePaginated'
+
+components:
+  schemas:
+    Admin:
+      type: 'object'
+      properties:
+        id:
+          type: 'string'
+        fullName:
+          type: 'string'
+        email:
+          type: 'string'
+        createdAt:
+          type: 'string'
+    Login:
+      type: 'object'
+      properties:
+        accessToken:
+          type: 'string'
+        exp:
+          type: 'integer'
+    Error:
+      type: 'object'
+      properties:
+        message:
+          type: 'string'
+        statusCode:
+          type: 'integer'
+        errors:
+          type: 'array'
+          items:
+            type: 'object'
+            properties:
+              property:
+                type: 'string'
+              constraint:
+                type: 'array'
+                items:
+                  type: 'string'
+    User:
+      type: 'object'
+      properties:
+        id:
+          type: 'string'
+        fullName:
+          type: 'string'
+        email:
+          type: 'string'
+        createdAt:
+          type: 'string'
+    Booking:
+      type: 'object'
+      properties:
+        id:
+          type: 'string'
+        day:
+          type: 'string'
+        dtStart:
+          type: 'string'
+        dtEnd:
+          type: 'string'
+        placeId:
+          type: 'string'
+    Attachment:
+      type: 'object'
+      properties:
+        id:
+          type: 'string'
+        path:
+          type: 'string'
+        key:
+          type: 'string'
+        ext:
+          type: 'string'
+        contentType:
+          type: 'string'
+        placeId:
+          type: 'string'
+        signedUrl:
+          type: 'string'
+        createdAt:
+          type: 'string'
+        updatedAt:
+          type: 'string'
+    Place:
+      type: 'object'
+      properties:
+        id:
+          type: 'string'
+        name:
+          type: 'string'
+        direction:
+          type: 'string'
+        latitude:
+          type: 'number'
+        longitud:
+          type: 'number'
+        aditionalData:
+          type: 'string'
+        attachment:
+          $ref: '#/components/schemas/Attachment'
+    Pagination:
+      type: 'object'
+      properties:
+        currentPage:
+          type: 'number'
+        itemsPerPage:
+          type: 'number'
+        totalItems:
+          type: 'number'
+        totalPages:
+          type: 'number'
+        previousPage:
+          type: 'number'
+        nextPage:
+          type: 'number'
+    PlacePaginated:
+      type: 'object'
+      properties:
+        pagination:
+          $ref: '#/components/schemas/Pagination'
+        places:
+          type: 'array'
+          items:
+            $ref: '#/components/schemas/Place'
+
   securitySchemes:
     api_key:
       type: 'apiKey'

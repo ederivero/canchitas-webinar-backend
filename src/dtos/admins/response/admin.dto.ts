@@ -3,7 +3,7 @@ import { Exclude, Expose, Transform } from 'class-transformer'
 @Exclude()
 export class AdminDto {
   @Expose()
-  readonly uuid: string
+  readonly id: string
 
   @Expose()
   readonly fullName: string
