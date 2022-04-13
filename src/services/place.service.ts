@@ -5,7 +5,7 @@ import { getPagination, SkipAndTake } from '../utils/pagination'
 import { AttachmentService } from './attachment.service'
 
 export class PlacesService {
-  static async getPlaces({ page = 1, perPage = 10 }) {
+  static async getPlaces({ page, perPage }: { page: number; perPage: number }) {
     const { skip } = SkipAndTake({ page, perPage })
 
     const [count, places] = await Promise.all([
