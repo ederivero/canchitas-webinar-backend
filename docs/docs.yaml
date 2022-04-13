@@ -262,6 +262,17 @@ paths:
     get:
       tags:
         - 'places'
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: integer
+          required: true
+        - in: query
+          name: perPage
+          schema:
+            type: integer
+          required: true
       responses:
         '200':
           description: ''
