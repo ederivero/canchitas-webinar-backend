@@ -72,7 +72,7 @@ model Schedule {
   day     DayOfWeek
   dtStart DateTime  @map(name: "dt_start") @db.Time()
   dtEnd   DateTime  @map(name: "dt_end") @db.Time()
-  placeId String    @map(name: "schedule_id")
+  placeId String    @map(name: "place_id")
   places  Place     @relation(fields: [placeId], references: [id])
 
   @@map(name: "schedules")
