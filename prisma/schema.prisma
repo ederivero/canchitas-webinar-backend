@@ -63,7 +63,6 @@ model Place {
   schedules  Schedule[]
   books      Booking[]
 
-  attachmentId String @unique
   @@map(name: "places")
 }
 
