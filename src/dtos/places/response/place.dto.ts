@@ -1,6 +1,7 @@
 import { Place, Prisma } from '@prisma/client'
 import { Exclude, Expose } from 'class-transformer'
 import { AttachmentDto } from '../../attachments/respose/attachment.dto'
+import { ScheduleDto } from '../../schedules/request/schedule.dto'
 
 @Exclude()
 export class PlaceDto {
@@ -24,4 +25,7 @@ export class PlaceDto {
 
   @Expose()
   readonly attachment: AttachmentDto
+
+  @Expose()
+  readonly schedules: Array<ScheduleDto>
 }
