@@ -19,7 +19,7 @@ export class PlacesService {
 
     const placesWithSignedUrl = places.map((place) => ({
       ...place,
-      image: place.attachment
+      attachment: place.attachment
         ? {
             ...place.attachment,
             signedUrl: AttachmentService.getSignedUrl(

@@ -34,7 +34,7 @@ export class AttachmentService {
     return plainToClass(AttachmentDto, { signedUrl, ...attachment })
   }
 
-  static async getSignedUrl(path: string) {
+  static getSignedUrl(path: string) {
     return s3.getSignedUrl('getObject', {
       Key: path,
       Bucket: process.env.AWS_BUCKET,
