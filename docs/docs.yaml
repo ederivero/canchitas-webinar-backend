@@ -245,7 +245,7 @@ paths:
       security:
         - api_key: []
 
-  booking/user/bookings:
+  /booking/users/bookings:
     get:
       tags:
         - 'booking'
@@ -258,6 +258,8 @@ paths:
                 type: 'array'
                 items:
                   $ref: '#/components/schemas/Booking'
+      security:
+        - api_key: []
   /places:
     get:
       tags:
