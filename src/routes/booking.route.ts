@@ -11,7 +11,7 @@ import { userValidator } from '../utils/auth-guard'
 const router = express.Router()
 
 export function bookingRoutes(): Router {
-  router.post('/booking', asyncHandler(userValidator), asyncHandler(createBook))
+  router.post('', asyncHandler(userValidator), asyncHandler(createBook))
 
   router.get(
     '/booking/:placeId',
