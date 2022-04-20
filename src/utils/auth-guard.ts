@@ -14,7 +14,7 @@ export async function authValidator(
 
   const token = req.headers.authorization.split(' ')[1]
 
-  const payload = verify(token, String(process.env.JWT_SECRET))
+  const payload = verify(token, String(process.env.JWT_SECRET_KEY))
   if (typeof payload !== 'string') {
     const auth = await prisma.token.findFirst({
       where: { jti: payload.jti },

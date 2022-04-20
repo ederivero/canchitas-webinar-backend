@@ -1,8 +1,8 @@
-import { IsDate, IsString, IsUUID, Matches } from 'class-validator'
+import { IsString, IsUUID, Matches } from 'class-validator'
 import { BaseDto } from '../../base.dto'
 
 export class BookingDto extends BaseDto {
-  @IsDate()
+  @IsString()
   readonly day: Date
 
   @IsString()

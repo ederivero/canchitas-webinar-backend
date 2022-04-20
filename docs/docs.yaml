@@ -245,7 +245,7 @@ paths:
       security:
         - api_key: []
 
-  /user/bookings:
+  booking/user/bookings:
     get:
       tags:
         - 'booking'

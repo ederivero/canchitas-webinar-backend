@@ -9,7 +9,12 @@ import { BadRequest } from 'http-errors'
 export class BookingService {
   static async createBook(input: BookingDto, user: Authenticated) {
     const book = await prisma.booking.findFirst({
-      where: { placeId: input.placeId, day: input.day, dtStart: input.dtStart },
+      where: {
+        placeId: input.placeId,
+        day: input.day,
+        dtStart: input.dtStart,
+      },
+      rejectOnNotFound: false,
     })
 
     if (book) {
